@@ -1,0 +1,89 @@
+.tabla-container {
+  width: 100%;
+  background-color: #2c2c2c;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #3a3a3a;
+}
+
+th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid #444;
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background-color: #383838;
+}
+
+/* Badges de estado */
+.estado {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.aprobado {
+  background-color: #166534;
+  color: #bbf7d0;
+}
+
+.rechazado {
+  background-color: #7f1d1d;
+  color: #fecaca;
+}
+
+.pendiente {
+  background-color: #78350f;
+  color: #fde68a;
+}
+
+/* Botones */
+button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.btn-subir {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-subir:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-ver {
+  background-color: #16a34a;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.btn-ver:hover {
+  background-color: #15803d;
+}
+
+.archivo-info {
+  font-size: 12px;
+  color: #9ca3af;
+}

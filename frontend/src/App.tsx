@@ -1,12 +1,8 @@
-import TablaUsuarios from "./components/TablaUsuarios";
+import Dashboard from "./pages/Dashboard";
+import "./App.css";
 
 function App() {
-  return (
-    <div>
-      <h1>Usuarios</h1>
-      <TablaUsuarios />
-    </div>
-  );
+  return <Dashboard />;
 }
 
 export default App;
