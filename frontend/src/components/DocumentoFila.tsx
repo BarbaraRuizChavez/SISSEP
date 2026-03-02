@@ -1,11 +1,13 @@
 import type { Documento } from "../data/documentos";
 import BotonSubir from "./BotonSubir";
+import "../styles/table.css";
 
 interface Props {
   documento: Documento;
+  onUploadSuccess: () => void;
 }
 
-export default function DocumentoFila({ documento }: Props) {
+export default function DocumentoFila({ documento, onUploadSuccess }: Props) {
   const getEstadoClass = (estado: string) => {
     switch (estado) {
       case "Aprobado":
@@ -18,48 +20,37 @@ export default function DocumentoFila({ documento }: Props) {
   };
 
   const verObservacion = () => {
-    if (documento.observaciones) {
-      alert(documento.observaciones);
-    } else {
-      alert("No hay observaciones.");
-    }
+    alert(documento.observaciones || "No hay observaciones.");
   };
 
   return (
     <tr>
+      <td>{documento.nombre}</td>
       <td>
-          {documento.nombre}
-          {documento.requerido && (
-            <span style={{ color: "red", marginLeft: "6px" }}>
-              (Requerido)
-            </span>
+        <span className={getEstadoClass(documento.estado)}>{documento.estado}</span>
+      </td>
+      <td>
+        {documento.estado === "Rechazado" && documento.observaciones ? (
+          <button onClick={verObservacion} className="btn-ver">
+            💬 Ver
+          </button>
+        ) : (
+          "-"
         )}
       </td>
-      <td>{documento.descripcion}</td>
-
       <td>
-        <span className={getEstadoClass(documento.estado)}>
-          {documento.estado}
-        </span>
+        {documento.nombreArchivo ? (
+          <>
+            <button className="btn-ver">Ver</button>
+            <div className="archivo-info">
+              {documento.nombreArchivo} <br />
+              {documento.tamano}
+            </div>
+          </>
+        ) : (
+          <BotonSubir documentoId={documento.id} onUploadSuccess={onUploadSuccess} />
+        )}
       </td>
-
-      <td>
-        <button onClick={verObservacion}>💬 Ver</button>
-      </td>
-
-      <td>
-  {documento.nombreArchivo ? (
-    <>
-      <button className="btn-ver">Ver</button>
-      <div className="archivo-info">
-        {documento.nombreArchivo} <br />
-        {documento.tamano}
-      </div>
-    </>
-  ) : (
-    <button className="btn-subir">Subir Archivo</button>
-  )}
-</td>
     </tr>
   );
 }

@@ -1,9 +1,12 @@
-const express = require("express");
-const app = express();
+import express from "express";
 
-app.get("/api/users", (req, res) => {
-  console.log("Petición GET /api/users recibida");
-  res.json([{ name: "Test User" }]);
+const app = express();
+const PORT = 4000;
+
+app.get("/", (req, res) => {
+  res.send("Hola mundo, backend funcionando!");
 });
 
-app.listen(3000, () => console.log("Servidor corriendo en puerto 3000"));
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
+});
