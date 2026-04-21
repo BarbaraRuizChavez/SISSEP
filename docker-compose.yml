@@ -1,0 +1,25 @@
+version: "3.9"
+
+# Solo PostgreSQL. MongoDB fue eliminado en v2.0.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sissep_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER:     sissep_user
+      POSTGRES_PASSWORD: sissep_pass
+      POSTGRES_DB:       sissep_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sissep_user -d sissep_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
