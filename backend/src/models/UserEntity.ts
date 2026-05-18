@@ -25,9 +25,11 @@ export class UserEntity {
   @Column({ name: 'carrera', length: 140, nullable: true, default: '' })
   carrera!: string;
 
-  // Solo relevante para usuarios con role = 'encargado'
-  @Column({ name: 'encargado_section', length: 80, nullable: true, default: '' })
-  encargadoSection!: string;
+  @Column({ name: 'periodo', length: 30, nullable: true, default: '' })
+  periodo!: string;
+
+  @Column({ name: 'student_status', type: 'varchar', default: 'activo' })
+  studentStatus!: string;
 
   @OneToMany(() => DocumentEntity, (doc) => doc.student)
   documents!: DocumentEntity[];

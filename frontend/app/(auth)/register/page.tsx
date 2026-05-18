@@ -2,10 +2,10 @@
 import { useState }  from 'react';
 import { useRouter } from 'next/navigation';
 import { api }       from '@/lib/api';
-import { UserRole }  from '@/types';
+import { UserRole, PERIODOS } from '@/types';
 import Link          from 'next/link';
 
-const CARRERAS = [
+const PROGRAMAS = [
   'Ingenieria en Sistemas Computacionales',
   'Ingenieria en Electronica',
   'Ingenieria en Mecatronica',
@@ -20,13 +20,13 @@ export default function RegisterPage() {
   const router = useRouter();
 
   const [form, setForm] = useState({
-    controlNumber:     '',
-    name:              '',
-    password:          '',
-    confirmPassword:   '',
-    role:              'estudiante' as UserRole,
-    carrera:           '',
-    encargadoSection:  '',
+    controlNumber:   '',
+    name:            '',
+    password:        '',
+    confirmPassword: '',
+    role:            'estudiante' as UserRole,
+    carrera:         '',
+    periodo:         '',
   });
 
   const [error,   setError]   = useState('');
@@ -45,17 +45,18 @@ export default function RegisterPage() {
     if (!form.name.trim())          { setError('El nombre es requerido.'); return; }
     if (form.password.length < 6)   { setError('La contrasena debe tener al menos 6 caracteres.'); return; }
     if (form.password !== form.confirmPassword) { setError('Las contrasenas no coinciden.'); return; }
-    if (form.role === 'estudiante' && !form.carrera) { setError('Selecciona tu carrera.'); return; }
+    if (form.role === 'estudiante' && !form.carrera) { setError('Selecciona tu Programa Educativo.'); return; }
+    if (form.role === 'estudiante' && !form.periodo) { setError('Selecciona el periodo de tu servicio.'); return; }
 
     setLoading(true);
     try {
       await api.post('/auth/register', {
-        controlNumber:    form.controlNumber.trim(),
-        name:             form.name.trim(),
-        password:         form.password,
-        role:             form.role,
-        carrera:          form.carrera,
-        encargadoSection: form.encargadoSection,
+        controlNumber: form.controlNumber.trim(),
+        name:          form.name.trim(),
+        password:      form.password,
+        role:          form.role,
+        carrera:       form.carrera,
+        periodo:       form.periodo,
       });
       setSuccess('Usuario registrado correctamente. Puedes iniciar sesion.');
       setTimeout(() => router.push('/login'), 2000);
@@ -94,7 +95,7 @@ export default function RegisterPage() {
           <label>{form.role === 'estudiante' ? 'Numero de control' : 'Usuario'}</label>
           <input
             className="input"
-            placeholder={form.role === 'estudiante' ? 'Ej: 20240123' : 'Ej: admin'}
+            placeholder={form.role === 'estudiante' ? 'Ej: A22120281' : 'Ej: admin'}
             value={form.controlNumber}
             onChange={(e) => set('controlNumber', e.target.value)}
           />
@@ -111,31 +112,35 @@ export default function RegisterPage() {
         </div>
 
         {form.role === 'estudiante' && (
-          <div className="field">
-            <label>Carrera</label>
-            <select
-              className="input"
-              value={form.carrera}
-              onChange={(e) => set('carrera', e.target.value)}
-            >
-              <option value="">Selecciona tu carrera</option>
-              {CARRERAS.map((c) => (
-                <option key={c} value={c}>{c}</option>
-              ))}
-            </select>
-          </div>
-        )}
+          <>
+            <div className="field">
+              <label>Programa Educativo</label>
+              <select
+                className="input"
+                value={form.carrera}
+                onChange={(e) => set('carrera', e.target.value)}
+              >
+                <option value="">Selecciona tu programa educativo</option>
+                {PROGRAMAS.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
+            </div>
 
-        {form.role === 'encargado' && (
-          <div className="field">
-            <label>Seccion a cargo</label>
-            <input
-              className="input"
-              placeholder="Ej: ISC, IM, IA"
-              value={form.encargadoSection}
-              onChange={(e) => set('encargadoSection', e.target.value)}
-            />
-          </div>
+            <div className="field">
+              <label>Periodo del Servicio</label>
+              <select
+                className="input"
+                value={form.periodo}
+                onChange={(e) => set('periodo', e.target.value)}
+              >
+                <option value="">Selecciona el periodo</option>
+                {PERIODOS.map((p) => (
+                  <option key={p} value={p}>{p}</option>
+                ))}
+              </select>
+            </div>
+          </>
         )}
 
         <div className="field">

@@ -51,6 +51,9 @@ export class DocumentEntity {
   @Column({ name: 'observations', type: 'text', default: '' })
   observations!: string;
 
+  @Column({ name: 'period_number', type: 'int', nullable: true })
+  periodNumber!: number | null;
+
   @Column({ name: 'reviewed_by', type: 'uuid', nullable: true })
   reviewedBy!: string | null;
 

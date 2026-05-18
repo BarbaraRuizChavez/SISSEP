@@ -30,10 +30,21 @@ export const api = {
   patch: <T>(endpoint: string, body: unknown)    => request<T>(endpoint, { method: 'PATCH', body: JSON.stringify(body) }),
 };
 
-// Para subir archivos (multipart/form-data, sin Content-Type manual)
 export async function uploadFile(endpoint: string, formData: FormData): Promise<unknown> {
   const token = getToken();
   const res = await fetch(`${BASE}${endpoint}`, {
+    method:  'POST',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+    body:    formData,
+  });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.message);
+  return json.data;
+}
+
+export async function importStudents(formData: FormData): Promise<unknown> {
+  const token = getToken();
+  const res = await fetch(`${BASE}/auth/students/import`, {
     method:  'POST',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body:    formData,

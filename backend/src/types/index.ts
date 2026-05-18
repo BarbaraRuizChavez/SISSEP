@@ -1,8 +1,7 @@
-// Tipos compartidos entre todas las capas del backend
-
-export type UserRole    = 'estudiante' | 'encargado';
-export type DocStatus   = 'pendiente'  | 'aprobado' | 'rechazado';
-export type ProgramType = 'servicio_social' | 'residencias';
+export type UserRole      = 'estudiante' | 'encargado';
+export type DocStatus     = 'pendiente'  | 'aprobado' | 'rechazado';
+export type ProgramType   = 'servicio_social' | 'residencias';
+export type StudentStatus = 'activo' | 'bloqueado';
 
 export interface JwtPayload {
   userId:  string;
@@ -17,7 +16,15 @@ export interface ApiResponse<T = unknown> {
   message?: string;
 }
 
-// Extiende el tipo Request de Express para incluir el usuario autenticado
+export interface DeliveryPeriod {
+  id:           string;
+  periodNumber: number;
+  label:        string;
+  startDate:    string;
+  endDate:      string;
+  programType:  string;
+}
+
 declare global {
   namespace Express {
     interface Request {

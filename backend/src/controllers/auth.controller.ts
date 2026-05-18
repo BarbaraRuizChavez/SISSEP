@@ -35,3 +35,12 @@ export async function listStudents(_req: Request, res: Response): Promise<void> 
     fail(res, e.message);
   }
 }
+
+export async function importStudents(req: Request, res: Response): Promise<void> {
+  try {
+    if (!req.file) { fail(res, 'Archivo requerido (.xlsx, .xls o .csv)'); return; }
+    ok(res, await AuthService.bulkRegisterStudents(req.file.buffer), 201);
+  } catch (e: any) {
+    fail(res, e.message);
+  }
+}

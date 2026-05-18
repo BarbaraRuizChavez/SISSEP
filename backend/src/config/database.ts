@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 import { DataSource }     from 'typeorm';
 import { ENV }            from './env';
-import { UserEntity }     from '../models/UserEntity';
-import { DocumentEntity } from '../models/DocumentEntity';
+import { UserEntity }           from '../models/UserEntity';
+import { DocumentEntity }        from '../models/DocumentEntity';
+import { DeliveryPeriodEntity }  from '../models/DeliveryPeriodEntity';
 
 export const AppDataSource = new DataSource({
   type:       'postgres',
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
   // En produccion debe ser false y usar migraciones.
   synchronize: ENV.NODE_ENV === 'development',
   logging:     false,
-  entities:    [UserEntity, DocumentEntity],
+  entities:    [UserEntity, DocumentEntity, DeliveryPeriodEntity],
 });
 
 export async function connectDB(): Promise<void> {
